@@ -1,0 +1,63 @@
+%https://github.com/edasubert/beamerMaterialDesign
+
+
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+\usepackage{fontspec}
+\usepackage{mathtools}
+\usepackage{unicode-math}
+\usepackage{pgfpages}
+
+\setbeameroption{show notes on second screen}
+
+\title{Material Design theme \\manual}
+\date{\today}
+\author[Šubert]{Eduard Šubert}
+
+\usetheme{material}
+
+\useLightTheme{}
+\usePrimaryIndigo{}
+\useAccent{4caf50}{087f23}
+
+
+\begin{document}
+
+\begin{frame}
+\titlepage{}
+\note{Hello!}
+\end{frame}
+
+\section{Intro}
+
+\begin{frame}{Overlay}
+    \begin{card}
+        \begin{itemize}[<+->]
+            \item hello
+            \item there
+        \end{itemize}
+    \end{card}
+    \note{This shows overlay}
+\end{frame}
+
+\begin{frame}{Card}
+    \begin{card}
+        {\color{accent} \textbackslash{}begin\{card\}\\[2mm]}
+        \null\qquad \textit{[your content here]}\\[2mm]
+        {\color{accent} \textbackslash{}end\{card\}}
+    \end{card}
+\end{frame}
+
+\section{Unicode}
+
+\begin{frame}{TitleCard}
+    \begin{card}[Some unicode in formulas:]
+        \begin{equation}
+            α² + β² = γ²
+        \end{equation}
+        And a fraction: ½.
+    \end{card}
+    \note{Wow! Unicode works}
+\end{frame}
+
+\end{document}
