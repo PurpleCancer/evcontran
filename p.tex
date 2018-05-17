@@ -10,8 +10,14 @@
 \usepackage{comment}
 \usepackage{listings}
 \usepackage[polish]{babel}
+\usepackage{amsmath}
 
 % \setbeameroption{show notes on second screen}
+
+% https://tex.stackexchange.com/questions/34921/how-to-overlap-images-in-a-beamer-slide
+\def\Put(#1,#2)#3{\leavevmode\makebox(0,0){\put(#1,#2){#3}}}
+
+\graphicspath{{./images/}}
 
 \title{Ostatecznie spójne transakcje}
 \date{18 maja 2018}
@@ -68,16 +74,117 @@
 
 \section{Jan}
 
-\begin{frame}{Opis problemów wg wstępu z Cloud Types}
+\begin{frame}{Wprowadzenie do problemu}
+	\begin{card}[Synchronizacja danych między urządzeniami]
+		\begin{itemize}[<+->]
+			\item Gdzie je umieścić?
+			\item W chmurze! ale...
+		\end{itemize}
+		\onslide<3-> {
+			\begin{figure}
+				\centering
+				\includegraphics[width=.5\textwidth]{no_cloud.png}
+			\end{figure}
+		}
+	\end{card}
 \end{frame}
 
-\begin{frame}{Definicje Sequential, Eventual, Revision Consistency}
+\begin{frame}{Wprowadzenie cd.}
+	\begin{card}
+		Synchronizacja z chmurą jest bateriożerna i nie zawsze możliwa.
+	\end{card}
+	\onslide<2-> {
+		\begin{card}[Rozwiązanie?]
+			\begin{itemize}
+				\item Replikacja danych na urządzeniach, 
+				\item Synchronizacja na żądanie i w miarę możliwości.
+			\end{itemize}
+		\end{card}
+	}
 \end{frame}
 
-\begin{frame}{Revision Graphs, porównanie rewizji i transakcji}
+\begin{frame}{Rodzaje spójności}
+	\begin{card}
+		Operujemy w środowisku transakcyjnym: \onslide<2-> { \textbf{yield.} }
+	\end{card}
+		
+	\onslide<3-> {
+		\begin{card}[\emph{Sequential consistency} a \emph{Eventual consistency}]
+			Kluczowa różnica --- spójność sekwencyjna wymaga widzenia \emph{wszystkich} operacji z zakończonych transakcji w globalnym porządku.
+			
+			\onslide<4-> {
+				Co z replikacją na urządzeniach bez dostępu do sieci?
+			}
+		\end{card}
+	}
 \end{frame}
 
-\begin{frame}{Historie?}
+\begin{frame}{Przykład}
+	\begin{card}
+		\begin{equation*}
+			\begin{split}
+				H = \{ &\langle C_1, \langle w_1(x)1,\ w_1(y)2,\ yield,\ w_2(x)2,\ yield, \\ 
+&w_1(y)4,\ yield,\ r_1(y)4,\ w_1(x)4\ yield \rangle \rangle, \\ 
+&\langle C_2, \langle w_1(x)1,\ w_1(y)2,\ yield, \\
+&w_2(x)2,\ yield,\ r_2(y)2,\ w_2(x)3,\ yield \rangle \rangle \} 
+			\end{split}
+		\end{equation*}
+	\end{card}
+	\onslide<2-> {
+		\begin{card}
+			Jak wykorzystać \emph{eventual consistency} przy budowie systemu?
+		\end{card}
+	}
+\end{frame}
+
+\begin{frame}{Revision diagrams}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{revdiag1.pdf}
+	\end{figure}
+	\onslide<2-> {
+		\pause
+		\Put(20, 70) {\includegraphics[height=3\baselineskip]{thinking.png}}
+	}
+\end{frame}
+
+\begin{frame}{More diagrams}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{ar_cwicz.pdf}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Revision diagrams cd.}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{revdiag2.pdf}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Revision diagrams cd.}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{revdiag3.pdf}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Revision consistency a pozostałe}
+	\begin{card}
+		\begin{itemize}[<+->]
+			\item Diagram rewizji a historia
+			\item Diagram jako \emph{świadek} historii
+			\item Revision consistency
+		\end{itemize}
+	\end{card}
+	\onslide<4-> {
+		\begin{card}
+			\begin{itemize}[<+->]
+				\item SC silniejsze niż EC i RC,
+				\item Historia RC jest też EC, o ile w diagramie nie ma \emph{zaniedbanych} wierzchołków dla scommitowanych transakcji.
+			\end{itemize}
+		\end{card}
+	}
 \end{frame}
 
 \section{Adam}
